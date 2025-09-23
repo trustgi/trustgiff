@@ -159,10 +159,24 @@
         
         .product-image {
             transition: transform 0.3s ease;
+            width: 100%;
+            aspect-ratio: 1/1;
+            background-color: transparent;
         }
         
         .product-image:hover {
             transform: scale(1.05);
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background-color: transparent;
+        }
+        
+        .product-image {
+            background-color: transparent !important;
         }
         
         .btn-primary {
@@ -182,16 +196,11 @@
     <header class="gradient-bg text-white py-4 px-6">
         <div class="container mx-auto flex justify-between items-center">
             <div class="flex items-center">
+                <img src="https://i.ibb.co/GvRgn9RQ/photo-2025-09-23-16-36-55.jpg" alt="Trustgiff Logo" class="w-8 h-8 mr-2 rounded">
                 <h1 class="text-2xl font-bold font-montserrat">Trustgiff</h1>
             </div>
             
-            <div class="flex items-center space-x-4">
-                <!-- Language Selector -->
-                <select id="languageSelect" class="language-select bg-white/20 text-white">
-                    <option value="ru">Русский</option>
-                    <option value="en">English</option>
-                </select>
-                
+            <div class="flex items-center">
                 <!-- Theme Toggle -->
                 <label class="theme-switch">
                     <input type="checkbox" id="themeToggle">
@@ -217,66 +226,8 @@
         <div class="container mx-auto">
             <h2 class="text-3xl font-bold text-center mb-12 gradient-text font-montserrat">Наши NFT подарки</h2>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- PRODUCT 1 - EASY TO EDIT: Change image, title, description, price, stock, buy link -->
-                <div class="card-gradient rounded-2xl p-6" data-aos="fade-up" data-aos-delay="100">
-                    <!-- EDIT IMAGE: Replace src below -->
-                    <div class="product-image overflow-hidden rounded-xl mb-4">
-                        <img src="http://static.photos/technology/640x360/1" alt="NFT Gift 1" class="w-full h-48 object-cover">
-                    </div>
-                    <!-- EDIT TITLE: Change text below -->
-                    <h3 class="text-xl font-semibold mb-2">Премиум стикерпак</h3>
-                    <!-- EDIT DESCRIPTION: Change text below -->
-                    <p class="text-gray-600 dark:text-gray-300 mb-4">Эксклюзивный набор анимированных стикеров для Telegram</p>
-                    <div class="flex justify-between items-center mb-6">
-                        <!-- EDIT PRICE: Change text below -->
-                        <span class="text-2xl font-bold gradient-text">299 ₽</span>
-                        <!-- EDIT STOCK: Change text below -->
-                        <span class="text-sm text-gray-500">В наличии: 15</span>
-                    </div>
-                    <!-- EDIT BUY LINK: Replace href below -->
-                    <a href="https://funpay.com/users/16618672/" class="btn-primary block text-center text-white py-3 rounded-xl font-medium">Buy</a>
-                </div>
-
-                <!-- PRODUCT 2 - EASY TO EDIT: Change image, title, description, price, stock, buy link -->
-                <div class="card-gradient rounded-2xl p-6" data-aos="fade-up" data-aos-delay="200">
-                    <!-- EDIT IMAGE: Replace src below -->
-                    <div class="product-image overflow-hidden rounded-xl mb-4">
-                        <img src="http://static.photos/gaming/640x360/2" alt="NFT Gift 2" class="w-full h-48 object-cover">
-                    </div>
-                    <!-- EDIT TITLE: Change text below -->
-                    <h3 class="text-xl font-semibold mb-2">Золотой смайлик</h3>
-                    <!-- EDIT DESCRIPTION: Change text below -->
-                    <p class="text-gray-600 dark:text-gray-300 mb-4">Эксклюзивный золотой смайлик для вашего Telegram</p>
-                    <div class="flex justify-between items-center mb-6">
-                        <!-- EDIT PRICE: Change text below -->
-                        <span class="text-2xl font-bold gradient-text">499 ₽</span>
-                        <!-- EDIT STOCK: Change text below -->
-                        <span class="text-sm text-gray-500">В наличии: 8</span>
-                    </div>
-                    <!-- EDIT BUY LINK: Replace href below -->
-                    <a href="https://funpay.com/users/16618672/" class="btn-primary block text-center text-white py-3 rounded-xl font-medium">Buy</a>
-                </div>
-
-                <!-- PRODUCT 3 - EASY TO EDIT: Change image, title, description, price, stock, buy link -->
-                <div class="card-gradient rounded-2xl p-6" data-aos="fade-up" data-aos-delay="300">
-                    <!-- EDIT IMAGE: Replace src below -->
-                    <div class="product-image overflow-hidden rounded-xl mb-4">
-                        <img src="http://static.photos/abstract/640x360/3" alt="NFT Gift 3" class="w-full h-48 object-cover">
-                    </div>
-                    <!-- EDIT TITLE: Change text below -->
-                    <h3 class="text-xl font-semibold mb-2">NFT аватарка</h3>
-                    <!-- EDIT DESCRIPTION: Change text below -->
-                    <p class="text-gray-600 dark:text-gray-300 mb-4">Уникальная NFT аватарка с анимацией для профиля</p>
-                    <div class="flex justify-between items-center mb-6">
-                        <!-- EDIT PRICE: Change text below -->
-                        <span class="text-2xl font-bold gradient-text">799 ₽</span>
-                        <!-- EDIT STOCK: Change text below -->
-                        <span class="text-sm text-gray-500">В наличии: 5</span>
-                    </div>
-                    <!-- EDIT BUY LINK: Replace href below -->
-                    <a href="https://funpay.com/users/16618672/" class="btn-primary block text-center text-white py-3 rounded-xl font-medium">Buy</a>
-                </div>
+            <div id="productsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Products will be rendered dynamically here -->
             </div>
         </div>
     </section>
@@ -328,7 +279,7 @@
             <div class="text-center">
                 <h3 class="text-2xl font-bold font-montserrat mb-4">Trustgiff</h3>
                 <p class="mb-6">Ваш надежный партнер в мире NFT подарков</p>
-                <p class="text-sm opacity-80">© 2024 Trustgiff. Все права защищены.</p>
+                <p class="text-sm opacity-80">© 2025 Trustgiff. Все права защищены.</p>
             </div>
         </div>
     </footer>
@@ -363,24 +314,123 @@
             }
         });
 
-        // Language Toggle (single click)
-        const languageSelect = document.getElementById('languageSelect');
-        let currentLanguage = 'ru';
-        
-        languageSelect.addEventListener('click', function() {
-            currentLanguage = currentLanguage === 'ru' ? 'en' : 'ru';
-            this.value = currentLanguage;
+        // Product Management System
+        const productsData = [
+            {
+                id: 1,
+                image: "https://telegifter.ru/wp-content/themes/gifts/assets/img/gifts/snoopdogg/King%20Snoop.webp",
+                title: "Snoop Dogg",
+                description: "Выбор реакции",
+                price: "480 ₽",
+                stock: "В наличии: 12",
+                buyLink: "https://funpay.com/users/16618672/"
+            },
+            {
+                id: 2,
+                image: "https://telegifter.ru/wp-content/themes/gifts/assets/img/gifts/eternalcandle/Snake%20Skin.webp",
+                title: "Eternal Candle",
+                description: "Уменьшилась в цене",
+                price: "950 ₽",
+                stock: "В наличии: 8",
+                buyLink: "https://funpay.com/users/16618672/"
+            },
+              {
+                id: 4,
+                image: "https://telegifter.ru/wp-content/themes/gifts/assets/img/gifts/hypnolollipop/Windmill.webp",
+                title: "Hypno Lollipop",
+                description: "Стабильный подарок",
+                price: "500 ₽",
+                stock: "В наличии: 17",
+                buyLink: "https://funpay.com/users/16618672/"
+            },
+                  {
+                id: 5,
+                image: "https://telegifter.ru/wp-content/themes/gifts/assets/img/gifts/jellybunny/Thug%20Life.webp",
+                title: "Jelly Bunny",
+                description: "Сохранилось намного меньше, чем было выпущено первоначально.",
+                price: "820 ₽",
+                stock: "В наличии: 4",
+                buyLink: "https://funpay.com/users/16618672/"
+            },
+                  {
+                id: 4,
+                image: "https://telegifter.ru/wp-content/themes/gifts/assets/img/gifts/gingercookie/Mr.%20Biscuit.webp",
+                title: "Ginger Cookie",
+                description: "Имбирное печенье",
+                price: "500 ₽",
+                stock: "В наличии: 8",
+                buyLink: "https://funpay.com/users/16618672/"
+            },
+            {
+                id: 3,
+                image: "https://telegifter.ru/wp-content/themes/gifts/assets/img/gifts/lolpop/Einstein.webp",
+                title: "Lol Pop",
+                description: "Популярный NFT подарок",
+                price: "370 ₽",
+                stock: "В наличии: 5",
+                buyLink: "https://funpay.com/users/16618672/"
+            }
+        ];
+
+        function renderProducts() {
+            const productsContainer = document.getElementById('productsContainer');
+            productsContainer.innerHTML = '';
             
-            const elements = document.querySelectorAll('[data-lang-ru], [data-lang-en]');
-            
-            elements.forEach(element => {
-                if (currentLanguage === 'ru') {
-                    element.textContent = element.getAttribute('data-lang-ru');
-                } else if (currentLanguage === 'en') {
-                    element.textContent = element.getAttribute('data-lang-en');
-                }
+            productsData.forEach(product => {
+                const productHTML = `
+                    <div class="card-gradient rounded-2xl p-6" data-aos="fade-up" data-aos-delay="${product.id * 100}">
+                        <div class="product-image overflow-hidden rounded-xl mb-4" style="background-color: transparent;">
+                            <img src="${product.image}" alt="${product.title}" class="w-full h-48 object-cover" style="object-fit: contain; background-color: transparent;">
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">${product.title}</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">${product.description}</p>
+                        <div class="flex justify-between items-center mb-6">
+                            <span class="text-2xl font-bold gradient-text">${product.price}</span>
+                            <span class="text-sm text-gray-500">${product.stock}</span>
+                        </div>
+                        <a href="${product.buyLink}" class="btn-primary block text-center text-white py-3 rounded-xl font-medium">Buy</a>
+                    </div>
+                `;
+                productsContainer.innerHTML += productHTML;
             });
-        });
+            
+            feather.replace();
+        }
+
+        // Initialize products on load
+        document.addEventListener('DOMContentLoaded', renderProducts);
+
+        // Easy product editing functions (can be called from browser console)
+        window.editProduct = function(productId, field, value) {
+            const product = productsData.find(p => p.id === productId);
+            if (product) {
+                product[field] = value;
+                renderProducts();
+            }
+        };
+
+        window.addProduct = function(newProduct) {
+            const nextId = Math.max(...productsData.map(p => p.id)) + 1;
+            productsData.push({ id: nextId, ...newProduct });
+            renderProducts();
+        };
+
+        window.removeProduct = function(productId) {
+            const index = productsData.findIndex(p => p.id === productId);
+            if (index !== -1) {
+                productsData.splice(index, 1);
+                renderProducts();
+            }
+        };
+
+        window.getProductsData = function() {
+            return productsData;
+        };
+        window.updateProducts = function(newProductsData) {
+            productsData.length = 0;
+            productsData.push(...newProductsData);
+            renderProducts();
+        };
     </script>
 </body>
 </html>
