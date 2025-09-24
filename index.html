@@ -378,7 +378,7 @@
             
             productsData.forEach(product => {
                 const productHTML = `
-                    <div class="card-gradient rounded-2xl p-6" data-aos="fade-up" data-aos-delay="${product.id * 100}">
+                    <a href="product.html?id=${product.id}" class="block card-gradient rounded-2xl p-6 transition-transform hover:scale-105" data-aos="fade-up" data-aos-delay="${product.id * 100}">
                         <div class="product-image overflow-hidden rounded-xl mb-4" style="background-color: transparent;">
                             <img src="${product.image}" alt="${product.title}" class="w-full h-48 object-cover" style="object-fit: contain; background-color: transparent;">
                         </div>
@@ -388,8 +388,8 @@
                             <span class="text-2xl font-bold gradient-text">${product.price}</span>
                             <span class="text-sm text-gray-500">${product.stock}</span>
                         </div>
-                        <a href="${product.buyLink}" class="btn-primary block text-center text-white py-3 rounded-xl font-medium">Buy</a>
-                    </div>
+                        <button class="btn-primary block text-center text-white py-3 rounded-xl font-medium w-full transition-transform hover:scale-105">Подробнее</button>
+                    </a>
                 `;
                 productsContainer.innerHTML += productHTML;
             });
