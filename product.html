@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trustgiff - Карточка товара</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(125deg, rgba(0, 0, 0, 0.03) 0%, rgba(255, 255, 255, 0.05) 50%, rgba(0, 0, 0, 0.03) 100%);
+            z-index: -1;
+            animation: gradientShift 8s ease infinite;
+            pointer-events: none;
+        }
+        
+        .dark-mode::before {
+            background: linear-gradient(125deg, #0a0a0a 0%, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%, #0a0a0a 100%);
+            animation: darkGradientShift 10s ease infinite;
+        }
+        
+        @keyframes darkGradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes backgroundMove {
+            from {
+                background-position: 0 0, 50px 50px;
+            }
+            to {
+                background-position: 100px 100px, 150px 150px;
+            }
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .card-gradient {
+            background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            color: #2d3748;
+        }
+        
+        .dark-mode {
+            background-color: #0a0a0a;
+            color: #ffffff;
+        }
+        
+        .dark-mode body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+        }
+        
+        .dark-mode .gradient-bg {
+            background: linear-gradient(135deg, #2d1b69 0%, #3b2088 100%);
+        }
+        
+        .dark-mode .card-gradient {
+            background: linear-gradient(145deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: #ffffff;
+        }
+        
+        .dark-mode .gradient-text {
+            background: linear-gradient(135deg, #818cf8 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .theme-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        
+        .theme-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .language-select {
+            background: transparent;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: #2d3748;
+        }
+        
+        .dark-mode .language-select {
+            color: #ffffff;
+        }
+        
+        .product-image {
+            transition: transform 0.3s ease;
+            width: 100%;
+            aspect-ratio: 1/1;
+            background-color: transparent;
+        }
+        
+        .product-image:hover {
+            transform: scale(1.05);
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background-color: transparent;
+        }
+        
+        .product-image {
+            background-color: transparent !important;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="gradient-bg text-white py-4 px-6">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="https://i.ibb.co/GvRgn9RQ/photo-2025-09-23-16-36-55.jpg" alt="Trustgiff Logo" class="w-8 h-8 mr-2 rounded">
+                <h1 class="text-2xl font-bold font-montserrat">Trustgiff</h1>
+            </div>
+            
+            <div class="flex items-center">
+                <!-- Theme Toggle -->
+                <label class="theme-switch">
+                    <input type="checkbox" id="themeToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+    </header>
+
+    <!-- Product Detail Section -->
+    <section class="py-16 px-6">
+        <div class="container mx-auto">
+            <div class="card-gradient rounded-2xl p-8 max-w-4xl mx-auto">
+                <div class="flex flex-col md:flex-row gap-8">
+                    <div class="md:w-1/2">
+                        <div class="product-image overflow-hidden rounded-xl mb-4" id="productImageContainer">
+                            <img id="productImage" src="" alt="" class="w-full h-auto object-contain">
+                        </div>
+                    </div>
+                    <div class="md:w-1/2">
+                        <h2 id="productTitle" class="text-3xl font-bold mb-4 gradient-text"></h2>
+                        <p id="productDescription" class="text-gray-600 dark:text-gray-300 mb-6 text-lg"></p>
+                        
+                        <div class="mb-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="text-3xl font-bold gradient-text" id="productPrice"></span>
+                                <span class="text-sm text-gray-500" id="productStock"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-8">
+                            <h3 class="text-xl font-semibold mb-3">Характеристики:</h3>
+                            <ul class="space-y-2" id="productFeatures">
+                                <!-- Features will be populated here -->
+                            </ul>
+                        </div>
+                        
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <a id="buyButton" href="" class="btn-primary text-center text-white py-3 px-6 rounded-xl font-medium flex-1">Купить на FunPay</a>
+                            <a href="index.html" class="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white text-center py-3 px-6 rounded-xl font-medium transition-colors hover:bg-gray-300 dark:hover:bg-gray-600 flex-1">Назад к подаркам</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="gradient-bg text-white py-12 px-6 mt-16">
+        <div class="container mx-auto">
+            <div class="text-center">
+                <h3 class="text-2xl font-bold font-montserrat mb-4">Trustgiff</h3>
+                <p class="mb-6">Ваш надежный партнер в мире NFT подарков</p>
+                <p class="text-sm opacity-80">© 2025 Trustgiff. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+
+        // Initialize Feather Icons
+        feather.replace();
+
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        // Check for saved theme preference
+        if (localStorage.getItem('theme') === 'dark') {
+            body.classList.add('dark-mode');
+            themeToggle.checked = true;
+        }
+
+        themeToggle.addEventListener('change', function() {
+            if (this.checked) {
+                body.classList.add('dark-mode');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.classList.remove('dark-mode');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // Get product ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = parseInt(urlParams.get('id'));
+
+        // Product data (in a real app, this would come from a database or API)
+        const productsData = [
+            {
+                id: 1,
+                image: "https://telegifter.ru/wp-content/themes/gifts/assets/img/gifts/snoopdogg/King%20Snoop.webp",
+                title: "Snoop Dogg",
+                description: "Выбор реакции",
+                price: "480 ₽",
+                stock: "В наличии: 12",
+                buyLink: "https://funpay.com/users/16618672/",
+                features: [
+                    "Редкий NFT подарок",
+                    "Ограниченная серия",
+                    "Анимированная реакция",
+                    "Уникальная текстура"
+                ]
+            },
+            {
+                id: 2,
+                image: "https://telegifter.ru/wp-content/themes/gifts/assets/img/gifts/eternalcandle/Snake%20Skin.webp",
+                title: "Eternal Candle",
+                description: "Уменьшилась в цене",
+                price: "950 ₽",
+                stock: "В наличии: 8",
+                buyLink: "https://funpay.com/users/16618672/",
+                features: [
+                    "Специальное предложение",
+                    "Сниженная цена",
+                    "Эксклюзивный дизайн",
+                    "Высокая редкость"
+                ]
+            },
+            {
+                id: 3,
+                image: "https://telegifter.ru/wp-content/themes/gifts/assets/img/gifts/lolpop/Einstein.webp",
+                title: "Lol Pop",
+                description: "Популярный NFT подарок",
+                price: "370 ₽",
+                stock: "В наличии: 5",
+                buyLink: "https://funpay.com/users/16618672/",
+                features: [
+                    "Популярный подарок",
+                    "Доступная цена",
+                    "Яркие анимации",
+                    "Подходит для всех"
+                ]
+            },
+            {
+                id: 4,
+                image: "https://telegifter.ru/wp-content/themes/gifts/assets/img/gifts/hypnolollipop/Windmill.webp",
+                title: "Hypno Lollipop",
+                description: "Стабильный подарок",
+                price: "500 ₽",
+                stock: "В наличии: 17",
+                buyLink: "https://funpay.com/users/16618672/",
+                features: [
+                    "Стабильная цена",
+                    "Высокий спрос",
+                    "Качественные анимации",
+                    "Надежный выбор"
+                ]
+            },
+            {
+                id: 5,
+                image: "https://telegifter.ru/wp-content/themes/gifts/assets/img/gifts/jellybunny/Thug%20Life.webp",
+                title: "Jelly Bunny",
+                description: "Сохранилось намного меньше, чем было выпущено первоначально.",
+                price: "820 ₽",
+                stock: "В наличии: 4",
+                buyLink: "https://funpay.com/users/16618672/",
+                features: [
+                    "Коллекционный предмет",
+                    "Очень редкий",
+                    "Историческая ценность",
+                    "Ограниченное количество"
+                ]
+            },
+            {
+                id: 6,
+                image: "https://telegifter.ru/wp-content/themes/gifts/assets/img/gifts/gingercookie/Mr.%20Biscuit.webp",
+                title: "Ginger Cookie",
+                description: "Имбирное печенье",
+                price: "500 ₽",
+                stock: "В наличии: 8",
+                buyLink: "https://funpay.com/users/16618672/",
+                features: [
+                    "Тематический дизайн",
+                    "Сезонный подарок",
+                    "Праздничная атмосфера",
+                    "Популярный выбор"
+                ]
+            }
+        ];
+
+        // Display product details
+        function displayProductDetails() {
+            const product = productsData.find(p => p.id === productId);
+            
+            if (product) {
+                document.getElementById('productImage').src = product.image;
+                document.getElementById('productImage').alt = product.title;
+                document.getElementById('productTitle').textContent = product.title;
+                document.getElementById('productDescription').textContent = product.description;
+                document.getElementById('productPrice').textContent = product.price;
+                document.getElementById('productStock').textContent = product.stock;
+                document.getElementById('buyButton').href = product.buyLink;
+                
+                // Populate features
+                const featuresList = document.getElementById('productFeatures');
+                featuresList.innerHTML = '';
+                product.features.forEach(feature => {
+                    const li = document.createElement('li');
+                    li.className = 'flex items-center';
+                    li.innerHTML = `
+                        <i data-feather="check-circle" class="w-5 h-5 text-green-500 mr-2"></i>
+                        <span>${feature}</span>
+                    `;
+                    featuresList.appendChild(li);
+                });
+                
+                feather.replace();
+            } else {
+                // If product not found, redirect to main page
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Initialize product details on load
+        document.addEventListener('DOMContentLoaded', displayProductDetails);
+    </script>
+</body>
+</html>
